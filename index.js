@@ -1,4 +1,3 @@
-// index.js
 const express = require("express");
 const usersRouter = require("./routes/users");
 
