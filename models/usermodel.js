@@ -17,7 +17,7 @@ const User = sequelize.define("User", {
     unique: true,
   },
 }, {
-  tableName: "users",
+  tableName: process.env.DB_TABLE_USERS,
   timestamps: false, 
 });
 
