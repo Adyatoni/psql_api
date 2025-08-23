@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../db");
+const User = require("../models/usermodel");
 
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM users");
-    res.json(result.rows);
+    const users = await User.findAll();
+    res.json(users);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Database error" });
@@ -13,4 +13,3 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-
