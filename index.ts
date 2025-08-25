@@ -1,27 +1,24 @@
 import express from "express";
-import dotenv from "dotenv";
-import { sequelize } from "./config/db";
-import userRoutes from "./routes/getusers.js";
-
-dotenv.config();
+import sequelize from "./config/db";
+import User from "./models/usermodel";
+import authRoutes from "./routes/auth";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
 app.use(express.json());
-app.use("/users", userRoutes);
-app.get("/", (_req, res) => {
-  res.send("API + Postgres is running!");
+
+// Root route
+app.get("/", (req, res) => {
+  res.send("API running!");
 });
 
+// Auth routes
+app.use("/auth", authRoutes);
 
-sequelize.authenticate()
+// DB Sync + Start server
+sequelize
+  .sync()
   .then(() => {
-    console.log("Database connected");
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    console.log("Database connected & synced");
+    app.listen(5000, () => console.log("Server running on http://localhost:5000"));
   })
-  .catch((err: Error) => {
-    console.error("Database connection error:", err);
-  });
+  .catch((err) => console.error("DB connection error:", err));
