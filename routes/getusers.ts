@@ -1,15 +1,16 @@
 import { Router, Request, Response } from "express";
 import User from "../models/usermodel.js";
+import { verifyToken, auth_req } from "../middleware/authmw";
+
 
 const router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", verifyToken, async (_req: auth_req, res: Response) => {
   try {
     const users = await User.findAll();
     res.json(users);
-  } catch (err) {
-    console.error((err as Error).message);
-    res.status(500).json({ error: "Database error" });
+  } catch (err : any) {
+    res.status(500).json({ error: err.message });
   }
 });
 

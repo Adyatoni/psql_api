@@ -2,6 +2,7 @@ import express from "express";
 import sequelize from "./config/db";
 import User from "./models/usermodel";
 import authRoutes from "./routes/auth";
+import userRoutes from "./routes/getusers";
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,8 @@ app.get("/", (req, res) => {
 
 // Auth routes
 app.use("/auth", authRoutes);
+
+app.use("/users", userRoutes); 
 
 // DB Sync + Start server
 sequelize
